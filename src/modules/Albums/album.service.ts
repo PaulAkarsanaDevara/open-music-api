@@ -1,8 +1,8 @@
 import { injectable } from "tsyringe";
 import Album from "../../models/Album";
-import { redisClient } from "../../config/redis";
 import { ALBUM_CACHE_KEY } from "../../contants/contant";
 import { IAlbum } from "../../interfaces/album.interface";
+import redisClient from "../../config/redis";
 
 @injectable()
 export class AlbumService {
@@ -19,7 +19,7 @@ export class AlbumService {
     if(cached) return JSON.parse(cached);
 
     const albums = await Album.find();
-    await redisClient.setEx(ALBUM_CACHE_KEY, 60, JSON.stringify(albums));
+    await redisClient.setex(ALBUM_CACHE_KEY, 60, JSON.stringify(albums));
     return albums;
   }
 
@@ -28,7 +28,7 @@ export class AlbumService {
     if(cached) return JSON.parse(cached);
 
     const album = await Album.findById(id);
-    if(album) await redisClient.setEx(ALBUM_CACHE_KEY, 60, JSON.stringify(album));
+    if(album) await redisClient.setex(ALBUM_CACHE_KEY, 60, JSON.stringify(album));
 
     return album;
 

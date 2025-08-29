@@ -1,12 +1,13 @@
-import { createClient } from "redis";
+import Redis from "ioredis";
+import { config } from "./app.config";
 
-export const redisClient = createClient({
-  url: process.env.REDIS_URL as string
+const redisClient = new Redis({
+  host: config.redis.host,
+  port: config.redis.port,
+  password: config.redis.password,
 });
 
 redisClient.on("error", (err) => console.error("Redis error:", err));
 redisClient.on("connect", () => console.log("Redis connected"));
 
-export const connectToRedis = async () => {
-  await redisClient.connect();
-};
+export default redisClient;
