@@ -49,7 +49,7 @@ export class AlbumController {
 
   async delete(req: Request, res: Response) {
     try {
-      await this.albumService.getAlbumById(req.params.id);
+      await this.albumService.deleteAlbum(req.params.id);
       res.json({ message: "Album deleted" })
     } catch (err: any) {
       res.status(500).json({ message: err.message || 'Internal server error' });
