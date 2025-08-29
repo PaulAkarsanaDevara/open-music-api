@@ -1,0 +1,1 @@
+export const ALBUM_CACHE_KEY: string =  process.env.ALBUM_CACHE_KEY! ;
